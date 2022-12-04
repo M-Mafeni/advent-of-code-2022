@@ -1,7 +1,7 @@
-const fs = require("fs").promises;
+import { readContentsFromFile } from "../utility";
 
 async function solve() {
-    const text: string = await fs.readFile(__dirname + "/input.txt").then((res: any) => String(res));
+    const text: string = await readContentsFromFile(__dirname + "/input.txt");
     const nums = text
         .split("\r\n\r\n")
         .map(val => val.split("\r\n").map(x => Number(x)));
