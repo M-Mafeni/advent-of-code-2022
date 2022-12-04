@@ -10,6 +10,7 @@
     "typescript": "^4.9.3"
   },
   "scripts": {
-    "day1": "ts-node 01/solution.ts"
+    "day1": "ts-node 01/solution.ts",
+    "day2": "ts-node 02/solution.ts"
   }
 }
