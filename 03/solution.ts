@@ -30,6 +30,19 @@ function getCommonItems(x: string, y: string): string {
 
 }
 
+function toGroupsOfThree(lines: string[]): string[][] {
+    let start = 0;
+    const result: string[][] = [];
+
+    while (start < lines.length) {
+        const group = lines.slice(start, start + 3)
+        result.push(group);
+        start += 3;
+    }
+
+    return result;
+}
+
 async function solve() {
     const lines = await readLinesFromFile(__dirname + "/input.txt");
     const rucksacks = lines.map(toCompartments);
@@ -39,6 +52,13 @@ async function solve() {
         return common.split("").map(getPriority).reduce((x,y) => x + y)
     }).reduce((x, y) => x + y);
     console.log(total);
+
+    const groupsOf3 = toGroupsOfThree(lines);
+    const total2 = groupsOf3.map((group) => {
+        const common = group.reduce(getCommonItems);
+        return common.split("").map(getPriority).reduce((x,y) => x + y)
+    }).reduce((x, y) => x + y);
+    console.log(total2);
 }
 
 
