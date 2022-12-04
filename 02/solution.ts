@@ -59,7 +59,30 @@ function calcScore(opponent: Move, player: Move): number {
     return moveScore + resultScore;
 }
 
-function convertLine(line: string): [Move, Move] {
+function getPlayerMove(opponent: Move, outcome: Result) {
+    switch(opponent) {
+        case Move.Rock:
+            switch(outcome){
+                case Result.Win: return Move.Paper;
+                case Result.Lose: return Move.Scissors;
+                case Result.Draw: return Move.Rock;
+            }
+        case Move.Paper:
+            switch(outcome){
+                case Result.Win: return Move.Scissors;
+                case Result.Lose: return Move.Rock;
+                case Result.Draw: return Move.Paper;
+            }
+        case Move.Scissors:
+            switch(outcome){
+                case Result.Win: return Move.Rock;
+                case Result.Lose: return Move.Paper;
+                case Result.Draw: return Move.Scissors;
+            }
+    }
+}
+
+function convertLinePart1(line: string): [Move, Move] {
     const [oppChar, playerChar] = line.split(" ");
     let oppMove;
     switch(oppChar) {
@@ -88,18 +111,57 @@ function convertLine(line: string): [Move, Move] {
     return [oppMove, playerMove]
 }
 
+function convertLinePart2(line: string): [Move, Result] {
+    const [oppChar, playerChar] = line.split(" ");
+    let oppMove;
+    switch(oppChar) {
+        case "A":
+            oppMove = Move.Rock;
+            break;
+        case "B":
+            oppMove = Move.Paper;
+            break;
+        default: // case C
+            oppMove = Move.Scissors;
+    }
+
+    let playerOutcome;
+    switch(playerChar) {
+        case "X":
+            playerOutcome = Result.Lose;
+            break;
+        case "Y":
+            playerOutcome = Result.Draw;
+            break;
+        default: // case Z
+            playerOutcome = Result.Win;
+    }
+
+    return [oppMove, playerOutcome]
+}
 async function solve() {
     const text = await readContentsFromFile(__dirname + "/input.txt");
-    const solution1 = text
-        .split("\r\n")
+    const lines = text.split("\r\n");
+    const solution1 = lines
         .map((line) => {
-          const [opponent, player] = convertLine(line);
+          const [opponent, player] = convertLinePart1(line);
         //   console.log(score);
         //   console.log();
           return calcScore(opponent, player);
         })
         .reduce((x,y) => x + y)
+    
     console.log(solution1);
+
+    const solution2 = lines
+        .map((line) => {
+          const [opponent, outcome] = convertLinePart2(line);
+          const playerMove = getPlayerMove(opponent, outcome);
+          return calcScore(opponent, playerMove);
+        })
+        .reduce((x,y) => x + y);
+    
+    console.log(solution2);
 }
 
 solve().catch((err) => {
