@@ -13,6 +13,7 @@
     "day1": "ts-node 01/solution.ts",
     "day2": "ts-node 02/solution.ts",
     "day3": "ts-node 03/solution.ts",
-    "day4": "ts-node 04/solution.ts"
+    "day4": "ts-node 04/solution.ts",
+    "day5": "ts-node 05/solution.ts"
   }
 }
