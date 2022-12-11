@@ -138,6 +138,22 @@ function solvePart1(currDir: Directory): number {
     return sum;
 }
 
+function solvePart2(currDir: Directory, unusedSpace: number): number {
+    const reducer = (acc: number, f: ElfFile | Directory) => {
+        if (isFile(f)) {
+            return acc;
+        } else {
+            const candidate = solvePart2(f, unusedSpace);
+            if (candidate + unusedSpace > 30000000 && candidate < acc) {
+                return candidate;
+            }
+            return acc;
+        }
+    }
+
+    return currDir.files.reduce(reducer, currDir.totalSize as number);
+}
+
 async function solve() {
     const currDir = {dirname: "root", files: []}
     const lines = await readLinesFromFile(__dirname + "/input.txt");
@@ -146,6 +162,9 @@ async function solve() {
     const root = cd(currDir, "/");
     addTotalSize(root);
     console.log(solvePart1(root));
+
+    const unusedSpace = 70000000 - (root.totalSize as number);
+    console.log(solvePart2(root, unusedSpace))
     // printFiletree(root);
 }
 
