@@ -15,6 +15,7 @@
     "day3": "ts-node 03/solution.ts",
     "day4": "ts-node 04/solution.ts",
     "day5": "ts-node 05/solution.ts",
-    "day6": "ts-node 06/solution.ts"
+    "day6": "ts-node 06/solution.ts",
+    "day7": "ts-node 07/solution.ts"
   }
 }
