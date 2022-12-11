@@ -13,12 +13,14 @@ function removeItemsFromStack(stack: Stack): string {
     return "";
 }
 
-function move(stacks: Stacks, sourceStackKey: number, targetStackKey: number, noOfItems: number) {
+function move(stacks: Stacks, sourceStackKey: number, targetStackKey: number, noOfItems: number, retainOrder?: boolean) {
     const sourceStack = stacks[sourceStackKey];
     const targetStack = stacks[targetStackKey];
 
     const itemsToRemove = sourceStack.splice(0, noOfItems);
-    itemsToRemove.reverse();
+    if (!retainOrder) {
+        itemsToRemove.reverse();
+    }
     const newTargetStack = [...itemsToRemove, ...targetStack];
     stacks[targetStackKey] = newTargetStack;
 }
@@ -39,7 +41,8 @@ function getMove(text: string): number[] {
 function runMoves(stacks: Stacks, moves: string[]) {
     moves.forEach((m) => {
         const [noOfItems, sourceStackKey, targetStackKey] = getMove(m);
-        move(stacks, sourceStackKey, targetStackKey, noOfItems);
+        // Remove true to run part 1
+        move(stacks, sourceStackKey, targetStackKey, noOfItems, true);
     });
 }
 
