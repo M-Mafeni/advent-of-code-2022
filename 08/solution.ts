@@ -27,6 +27,81 @@ function getVisibleTreeCount(grid: Grid): number {
         .reduce((x, y) => x + y, 0);
 }
 
+function getMaxScenicScore(grid: Grid): number {
+    const scoreGrid = grid.map((row) => row.map(() => 0));
+    // top
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            scoreGrid[i][j] = getScenicScore(grid, i , j);
+        }
+    }
+
+    // console.log(scoreGrid);
+    return Math.max(...scoreGrid.map(row => Math.max(...row)));
+}
+
+function getScenicScore(grid: Grid, row: number, col: number): number {
+    const printLog = (message: any) => {
+        // if (row === 3 && col === 2) {
+        //     console.log(message);
+        // }
+    }
+
+    // top
+    printLog("Top Values");
+    let topScore = 0;
+    for (let i = row - 1; i >= 0; i--) {
+        printLog(grid[i][col]);
+        topScore++;
+
+        if (grid[i][col] >= grid[row][col]) {
+            break;
+        }
+    }
+
+    // bottom
+    printLog("Bottom Values");
+    let bottomScore = 0;
+    for (let i = row + 1; i < grid.length; i++) {
+        printLog(grid[i][col]);
+        bottomScore++;
+
+        if (grid[i][col] >= grid[row][col]) {
+            break;
+        }
+    
+    }
+    
+    // left
+    printLog("Left Values");
+    let leftScore = 0;
+    for (let j = col - 1; j >= 0; j--) {
+        printLog(grid[row][j]);
+        leftScore++;
+
+        if (grid[row][j] >= grid[row][col]) {
+            break;
+        }
+    }
+
+    // right
+    printLog("Right Values");
+    let rightScore = 0;
+    for (let j = col + 1; j < grid[0].length; j++) {
+        printLog(grid[row][j]);
+        rightScore++;
+
+        if (grid[row][j] >= grid[row][col]) {
+            break;
+        }
+    
+    }
+
+    printLog({topScore, bottomScore, leftScore, rightScore})
+
+    return topScore * bottomScore * leftScore * rightScore;
+}
+
 function isVisible(grid: Grid, row: number, col: number): boolean {
     // top 
     const printLog = (message: any) => {
@@ -92,6 +167,7 @@ async function solve() {
     const lines = await readLinesFromFile(__dirname + "/input.txt");
     const grid = createGrid(lines);
     console.log(getVisibleTreeCount(grid));
+    console.log(getMaxScenicScore(grid));
 
 }
 
