@@ -12,11 +12,26 @@ function runInstructions(instructions: Instr[]): number {
     let currentExec: AddX | null = null;
     let currInstIndex = 0;
     let signalStrengthSum = 0;
+    let row = "";
     while (currInstIndex < instructions.length || currentExec) {
         // Calc signal strength
         if ((cycle - 20) % 40 === 0) {
             signalStrengthSum += register * cycle;
-        } 
+        }
+
+        if (cycle !== 1 && (cycle - 1) % 40 === 0) {
+            console.log(row);
+            row = "";
+        }
+
+        // Get char to add to row
+        const spritePos = register % 40;
+        const currPixelDrawn = ((cycle - 1 + 40) % 40) + 1;
+        if (spritePos <= currPixelDrawn && currPixelDrawn <= spritePos + 2) {
+            row += "#";
+        } else {
+            row += ".";
+        }
 
         // Check current executing instruction Decrease ttl or execute it
         if (!currentExec) {
@@ -35,6 +50,7 @@ function runInstructions(instructions: Instr[]): number {
         // console.log({cycle, register, currentExec, currInstIndex});
         cycle++;
     }
+    console.log(row);
     return signalStrengthSum;
 }
 
