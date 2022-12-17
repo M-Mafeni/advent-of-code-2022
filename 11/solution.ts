@@ -37,11 +37,15 @@ function getNewMonkey(level: number, test: Test): number {
 }
 
 function runRound(monkeys: MonkeyMap) {
+
+    const clamp = Object.values(monkeys).reduce((acc, monkey) => acc * monkey.test.divisor, 1);
     for (const key of Object.keys(monkeys).map(Number)) {
         const monkey = monkeys[key];
         for (const item of monkey.items) {
             const newLevel = runOperation(item, monkey.operation);
-            const boredLevel = Math.floor(newLevel / 3);
+            // Uncomment line for part 1
+            // const boredLevel = Math.floor(newLevel / 3);
+            const boredLevel = newLevel % clamp;
             const newMonkey = getNewMonkey(boredLevel, monkey.test);
             monkeys[newMonkey].items.push(boredLevel);
         }
@@ -50,10 +54,20 @@ function runRound(monkeys: MonkeyMap) {
     }
     // console.log(monkeys);
 }
+function printMonkeys(monkeys: MonkeyMap) {
+    Object.entries(monkeys).forEach(([key, monkey]) => {
+        console.log(`Monkey ${key} inspected items ${monkey.itemsInspected} times`);
+    });
+}
 
 function runRounds(monkeys: MonkeyMap) {
-    for(let i = 0; i < 20; i++) {
+    for(let i = 1; i <= 10000; i++) {
         runRound(monkeys);
+        // if ([1,2,20].includes(i)) {
+        //     console.log(`== After round ${i} ==`);
+        //     printMonkeys(monkeys);
+        //     console.log();
+        // }
     }
 }
 
