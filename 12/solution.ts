@@ -2,7 +2,7 @@ import { readLinesFromFile } from "../utility";
 type Grid = number[][];
 type Position = [number, number]
 
-function findStartPos(grid: Grid): Position {
+function findStartPosPart1(grid: Grid): Position {
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[0].length; j++) {
             if (grid[i][j] === 0) {
@@ -50,17 +50,15 @@ function getNeighbours(pos: Position, grid: Grid): Position[] {
     return [up, down, left, right].filter(x => x != null) as Position[];
 }
 
-function dijsktra(grid: Grid): number {
+function dijsktra(startPos: Position, grid: Grid): number {
     const visited = grid.map(row => row.map(() => false));
     const distance: (number|null)[][] = grid.map(row => row.map(() => null));
-    const startPos = findStartPos(grid);
     const [startX, startY] = startPos;
     visited[startX][startY] = true;
     distance[startX][startY] = 0;
     let steps = 0;
     const queue: Position[] = [startPos]
     while (queue.length !== 0) {
-        // console.log({queue});
         const [sx, sy] = queue[0];
         const pos = queue[0];
         queue.shift();
@@ -78,10 +76,27 @@ function dijsktra(grid: Grid): number {
             }
         }
     }
-    console.log(grid[20][88]);
-    console.log(distance[20][88]);
     return 0;
 
+}
+
+function getStartPositions(grid: Grid): Position[] {
+    const positions: Position[] = [];
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] === 0 || grid[i][j] === 1) {
+                positions.push([i, j]);
+            }
+        }
+    }
+    return positions;
+}
+
+function runPart2(grid: Grid): number {
+    const startPositions = getStartPositions(grid);
+    const distances = startPositions.map((pos) => dijsktra(pos, grid));
+    // Value 0 means it was unreachable
+    return Math.min(...distances.filter(d => d !== 0));
 }
 
 async function solve() {
@@ -96,7 +111,8 @@ async function solve() {
                 return l.charCodeAt(0) - 96;
         }
     }))
-    console.log(dijsktra(grid));
+    console.log(dijsktra(findStartPosPart1(grid), grid));
+    console.log(runPart2(grid));
 }
 
 solve().catch(err => console.log("An error occurred", err));
