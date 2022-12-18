@@ -2,6 +2,7 @@ import {readLinesFromFile} from "../utility";
 
 type Position = [number, number];
 type Rock = Position[];
+type SandMap = Map<number, Map<number, boolean>>;
 
 function inRange(minNum: number, maxNum: number, x: number) {
     return minNum <= x && x <= maxNum
@@ -13,10 +14,15 @@ function positionIsBlockedByRock(rock: Rock, pos: Position): boolean {
         const [sx, sy] = rock[i];
         const [ex, ey] = rock[i + 1];
         // ex < sx
-        const bothPlus = inRange(sx, ex, x) && inRange(sy, ey, y);
-        const xNeg = inRange(ex, sx, x) && inRange(sy, ey, y);
-        const yNeg = inRange(sx, ex, x) && inRange(ey, sy, y);
-        const bothNeg = inRange(ex, sx, x) && inRange(ey, sy, y);
+        const xInc = inRange(sx, ex, x); 
+        const xDec = inRange(ex, sx, x); 
+        const yInc = inRange(sy, ey, y); 
+        const yDec = inRange(ey, sy, y); 
+
+        const bothPlus = xInc && yInc;
+        const xNeg = xDec && yInc;
+        const yNeg = xInc && yDec;
+        const bothNeg = xDec && yDec;
         if (bothPlus || xNeg || yNeg || bothNeg) {
             return true;
         }
@@ -24,9 +30,9 @@ function positionIsBlockedByRock(rock: Rock, pos: Position): boolean {
     return false;
 }
 
-function positionIsBlocked(rocks: Rock[], fallenSand: Position[], pos: Position): boolean {
+function positionIsBlocked(rocks: Rock[], fallenSand: SandMap, pos: Position): boolean {
     const [x, y] = pos;
-    const isBlockedBySand = fallenSand.some(val => val[0] === x && val[1] === y);
+    const isBlockedBySand = fallenSand.has(x) ? fallenSand.get(x)?.has(y) : false;
     if (isBlockedBySand) {
         return true;
     }
@@ -38,25 +44,59 @@ function getLowestYPointRocks(rocks: Rock[]): number {
     return Math.max(...rocks.map(r => Math.max(...r.map(x => x[1]))))
 }
 
+function addPosToMap(sandMap: Map<number, Map<number, boolean>>, pos: Position) {
+    const [x, y] = pos;
+    if (sandMap.has(x)) {
+        const subMap = sandMap.get(x);
+        subMap?.set(y, true);
+    } else {
+        sandMap.set(x, new Map([[y, true]]))
+    }
+}
+
 function calcUnitsTillInfinity(rocks: Rock[]): number {
-    const fallenSand: Position[] = [];
+    const fallenSandMap: Map<number, Map<number, boolean>> = new Map();
     const lowestYPoint = getLowestYPointRocks(rocks);
+    const floor = lowestYPoint + 2;
     while (true) {
-        let sandPos: Position = [500, 0];
+        let sandPos: Position = [501, 0];
         let isBlocked = false;
         while (!isBlocked) {
             const [x, y] = sandPos;
-            if (y > lowestYPoint) {
-                return fallenSand.length;
+            // Uncomment for part 1
+            // if (y > lowestYPoint) {
+            //     let s = 0;
+            //     for (const m of fallenSandMap.values()) {
+            //         s += m.size;
+            //     }
+            //     return s;
+            // }
+
+            // Part 2 check
+            if (y + 1 === floor) {
+                isBlocked = true;
+                // fallenSand.push(sandPos);
+                addPosToMap(fallenSandMap, sandPos)
+                break;
             }
+
             const down: Position = [x, y + 1];
             const downLeft: Position = [x - 1, y + 1];
             const downRight: Position = [x + 1, y + 1];
-            if (positionIsBlocked(rocks, fallenSand, down)) {
-                if (positionIsBlocked(rocks, fallenSand, downLeft)) {
-                    if(positionIsBlocked(rocks, fallenSand, downRight)) {
+            if (positionIsBlocked(rocks, fallenSandMap, down)) {
+                if (positionIsBlocked(rocks, fallenSandMap, downLeft)) {
+                    if(positionIsBlocked(rocks, fallenSandMap, downRight)) {
+                        // Part 2 check
+                        if (x === 500 && y === 0) {
+                            let s = 0;
+                            for (const m of fallenSandMap.values()) {
+                                s += m.size;
+                            }
+                            return s + 1;
+                        }
                         isBlocked = true;
-                        fallenSand.push(sandPos);
+                        // fallenSand.push(sandPos);
+                        addPosToMap(fallenSandMap, sandPos);
                     } else {
                         sandPos = downRight;
                     }
@@ -81,7 +121,9 @@ function parseRock(line: string): Rock {
 async function solve() {
     const lines = await readLinesFromFile(__dirname + "/input.txt");
     const rocks = lines.map(parseRock);
+    console.time();
     console.log(calcUnitsTillInfinity(rocks));
+    console.timeEnd();
 }
 
 solve().catch(err => console.log("An error occurred", err));
