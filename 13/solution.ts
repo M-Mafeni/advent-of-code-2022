@@ -81,6 +81,21 @@ async function solve() {
     const pairs = content.split("\r\n\r\n").map(parsePacket);
     const part1Sol = pairs.map((pair, i) => isPacketOrder(pair) ? i + 1 : 0).reduce((x, y) => x + y)
     console.log(part1Sol);
+    const allPackets = content.split("\r\n").filter(x => x.length !== 0).map(x => parseNode(x) as TreeNode);
+    const allPacketsWithDividers = [...allPackets, [[2]], [[6]]];
+    allPacketsWithDividers.sort((a, b) => isPacketOrder([a, b]) ? -1 : 1)
+    let div2Idx = -1;
+    let div6Idx = -1;
+    for (let i = 0; i < allPacketsWithDividers.length; i++) {
+        const packet = allPacketsWithDividers[i];
+        if (packet.length === 1 && typeof packet[0] === 'object' && packet[0].length === 1 && packet[0][0] === 2) {
+            div2Idx = i + 1;
+        } 
+        if (packet.length === 1 && typeof packet[0] === 'object' && packet[0].length === 1 && packet[0][0] === 6) {
+            div6Idx = i + 1;
+        } 
+    }
+    console.log(div2Idx * div6Idx);
 }
 
 solve().catch(err => console.log("An error occurred", err));
