@@ -1,0 +1,1 @@
+export type TreeNode = (number | TreeNode)[];
