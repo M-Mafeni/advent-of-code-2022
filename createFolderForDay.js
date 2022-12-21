@@ -5,6 +5,8 @@ const day = process.argv[2];
 fs.mkdirSync(day);
 
 const tsTemplate = `
+import {readContentsFromFile, readLinesFromFile} from "../utility";
+
 async function solve() {
 
 }
