@@ -1,0 +1,34 @@
+graph {
+LA [label = "LA (22)"]
+MA [label = "MA (24)"]
+NA [label = "NA (26)"]
+OA [label = "OA (28)"]
+PA [label = "PA (30)"]
+AA [label = "AA (0)"]
+BA [label = "BA (2)"]
+CA [label = "CA (4)"]
+DA [label = "DA (6)"]
+EA [label = "EA (8)"]
+FA [label = "FA (10)"]
+GA [label = "GA (12)"]
+HA [label = "HA (14)"]
+IA [label = "IA (16)"]
+JA [label = "JA (18)"]
+KA [label = "KA (20)"]
+LA -- {KA, MA}
+MA -- {NA}
+NA -- {OA}
+OA -- {PA}
+PA -- {}
+AA -- {BA}
+BA -- {CA}
+CA -- {DA}
+DA -- {EA}
+EA -- {FA}
+FA -- {GA}
+GA -- {HA}
+HA -- {IA}
+IA -- {JA}
+JA -- {KA}
+KA -- {}
+}

@@ -1,0 +1,126 @@
+graph {
+OM [label = "OM (0)"]
+ZZ [label = "ZZ (0)"]
+NC [label = "NC (0)"]
+QI [label = "QI (5)"]
+QS [label = "QS (0)"]
+FP [label = "FP (0)"]
+ZR [label = "ZR (0)"]
+YR [label = "YR (21)"]
+SJ [label = "SJ (23)"]
+QY [label = "QY (0)"]
+KD [label = "KD (13)"]
+GT [label = "GT (0)"]
+DB [label = "DB (0)"]
+KW [label = "KW (0)"]
+TX [label = "TX (0)"]
+YX [label = "YX (0)"]
+NA [label = "NA (0)"]
+ST [label = "ST (0)"]
+UX [label = "UX (0)"]
+OT [label = "OT (0)"]
+AK [label = "AK (0)"]
+UC [label = "UC (0)"]
+FF [label = "FF (0)"]
+GN [label = "GN (0)"]
+KK [label = "KK (0)"]
+PD [label = "PD (10)"]
+LR [label = "LR (18)"]
+CY [label = "CY (14)"]
+YH [label = "YH (0)"]
+RS [label = "RS (0)"]
+YO [label = "YO (20)"]
+HQ [label = "HQ (0)"]
+UE [label = "UE (0)"]
+NM [label = "NM (0)"]
+KX [label = "KX (7)"]
+IW [label = "IW (0)"]
+IN [label = "IN (22)"]
+WY [label = "WY (0)"]
+HY [label = "HY (0)"]
+AA [label = "AA (0)"]
+ZU [label = "ZU (0)"]
+YK [label = "YK (0)"]
+XK [label = "XK (0)"]
+VB [label = "VB (0)"]
+ZP [label = "ZP (0)"]
+VQ [label = "VQ (11)"]
+HW [label = "HW (0)"]
+NU [label = "NU (8)"]
+UZ [label = "UZ (0)"]
+PV [label = "PV (0)"]
+MX [label = "MX (6)"]
+KS [label = "KS (0)"]
+UD [label = "UD (0)"]
+FV [label = "FV (0)"]
+SG [label = "SG (0)"]
+HM [label = "HM (24)"]
+XO [label = "XO (0)"]
+KC [label = "KC (12)"]
+IO [label = "IO (0)"]
+DY [label = "DY (0)"]
+ID [label = "ID (0)"]
+EZ [label = "EZ (0)"]
+OM -- {AA, EZ}
+ZZ -- {LR, QY}
+NC -- {KX, QI}
+QI -- {TX, QS, HY, UX}
+QS -- {CY}
+FP -- {IW, SJ}
+ZR -- {ID, KC}
+YR -- {RS, OT, FV}
+SJ -- {}
+QY -- {NU}
+KD -- {WY, ZP}
+GT -- {SG, PD}
+DB -- {TX, MX}
+KW -- {AK, HM}
+TX -- {}
+YX -- {HY, AA}
+NA -- {NU, KS}
+ST -- {YO, PD}
+UX -- {OT}
+OT -- {}
+AK -- {PD}
+UC -- {YH, KC}
+FF -- {YO, IN}
+GN -- {CY, MX}
+KK -- {WY, YO}
+PD -- {ID, HW}
+LR -- {NM, SG, YK}
+CY -- {VB, FV}
+YH -- {VQ}
+RS -- {MX}
+YO -- {NM, ZU}
+HQ -- {AA, MX}
+UE -- {HM, IN}
+NM -- {}
+KX -- {UZ, XK, PV}
+IW -- {VQ}
+IN -- {}
+WY -- {}
+HY -- {}
+AA -- {KS, XO}
+ZU -- {NU}
+YK -- {ZP}
+XK -- {XO}
+VB -- {UZ}
+ZP -- {}
+VQ -- {EZ}
+HW -- {NU}
+NU -- {UD}
+UZ -- {}
+PV -- {DY}
+MX -- {DY}
+KS -- {}
+UD -- {IO}
+FV -- {}
+SG -- {}
+HM -- {}
+XO -- {}
+KC -- {IO}
+IO -- {}
+DY -- {}
+ID -- {}
+EZ -- {}
+}
