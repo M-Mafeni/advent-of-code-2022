@@ -25,7 +25,8 @@
     "day13": "ts-node 13/solution.ts",
     "day14": "ts-node 14/solution.ts",
     "day15": "ts-node 15/solution.ts",
-    "day16": "ts-node 16/solution.ts"
+    "day16": "ts-node 16/solution.ts",
+    "day17": "ts-node 17/solution.ts"
   },
   "dependencies": {
     "@masala/parser": "^1.0.0"
